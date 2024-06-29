@@ -3,6 +3,7 @@ import {QuoteType} from '../../types';
 import AddQuoteForm from '../../components/AddQuoteForm/AddQuoteForm';
 import axiosApi from '../../axiosApi';
 import {useNavigate} from 'react-router-dom';
+import Spinner from '../../components/Spinner/Spinner';
 
 const AddQuote = () => {
   const [quote, setQuote] = useState<QuoteType>({
@@ -10,6 +11,9 @@ const AddQuote = () => {
     author: '',
     quote: '',
   });
+
+  const [loading, setLoading] = useState(false);
+
 
   const navigate = useNavigate();
 
@@ -24,6 +28,7 @@ const AddQuote = () => {
 
   const onFormSubmit = async (event: React.FormEvent)=> {
     event.preventDefault();
+    setLoading(true);
 
     const newQuote = {
       category: quote.category,
@@ -33,14 +38,27 @@ const AddQuote = () => {
     try {
       await axiosApi.post('/quotes.json', newQuote);
     }finally {
+      setLoading(false);
       navigate('/');
     }
   };
 
+  let form = (
+    <AddQuoteForm
+      quote={quote}
+      onFieldChange={onFieldChange}
+      onFormSubmit={onFormSubmit}
+    />
+  );
+
+  if (loading) {
+    form = <Spinner />
+  }
+
   return (
     <div className="container mt-3">
       <h4>Submit new quote</h4>
-        <AddQuoteForm quote={quote} onFieldChange={onFieldChange} onFormSubmit={onFormSubmit} />
+      {form}
     </div>
   );
 };
