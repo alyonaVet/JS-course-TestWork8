@@ -17,10 +17,10 @@ const AddQuoteForm: React.FC<QuoteFormProps> = ({quote, onFormSubmit, onFieldCha
         className="form-select w-50 mb-3"
         id="category"
         name="category"
+        required
         onChange={onFieldChange}
         value={quote.category}
       >
-        <option selected>Select a category</option>
         <option value="star-wars">Star Wars</option>
         <option value="famous-people">Famous people</option>
         <option value="saying">Saying</option>
