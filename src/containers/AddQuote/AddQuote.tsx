@@ -26,7 +26,9 @@ const AddQuote = () => {
     event.preventDefault();
 
     const newQuote = {
-      quote,
+      category: quote.category,
+      author: quote.author,
+      quote: quote.quote,
     };
     try {
       await axiosApi.post('/quotes.json', newQuote);
